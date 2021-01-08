@@ -1,0 +1,26 @@
+{
+  "name": "angularapp",
+  "version": "1.0.0",
+  "description": "niestacjonarne 2020/2021",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Szymon Dubowski, Michał Dudkiewicz",
+  "license": "ISC",
+  "dependencies": {
+    "autoprefixer": "^10.0.4",
+    "body-parser": "^1.19.0",
+    "bootstrap": "^4.5.3",
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "knex": "^0.21.12",
+    "sequelize": "^6.3.5",
+    "tedious": "^9.2.1",
+    "underscore": "^1.12.0"
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "mssql": "^6.2.3"
+  }
+}
