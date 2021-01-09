@@ -7,11 +7,11 @@ var controller = {
         },
 
         getById: function (req, res) {
-            Product.findAll({where: {id: req.params.id}}).then((result) => res.json(result))
+            Product.findAll({where: {id: req.params.id}}).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
         },
 
         getByCategoryId: function (req, res) {
-            Product.findAll({where: {categoryId: req.params.id}}).then((result) => res.json(result))
+            Product.findAll({where: {categoryId: req.params.id}}).then((result) => res.json(result)).catch((err) => res.status(400).send(err));
         },
 
         add: function (req, res) {
@@ -21,7 +21,7 @@ var controller = {
                 price: req.body.price,
                 weight: req.body.weight,
                 categoryId: req.body.categoryId
-            }).then((result) => res.json(result)).catch((err) => res.json(err))
+            }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
         },
 
         updateById: function (req, res) {
@@ -35,7 +35,7 @@ var controller = {
                 where: {
                     id: req.params.id
                 }
-            }).then((result) => res.json(result)).catch((err) => res.json(err))
+            }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
         }
 };
 

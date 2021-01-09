@@ -9,6 +9,9 @@
             </button>
         </nav>
         <div class="col-md-6 navbar-title">
+            <div v-if="alert" class="alert alert-danger order-alert" role="alert">
+                Invalid value!
+            </div>
             <table class="table table-bordered table-striped table-dark">
                 <thead>
                 <tr>
@@ -24,9 +27,39 @@
                     v-bind:key="product.name">
                     <td class="table-rows">{{product.name}}</td>
                     <td class="table-rows">{{product.description}}</td>
-                    <td class="table-rows">{{product.price}}</td>
-                    <td class="table-rows">{{product.weight}}</td>
-                    <td class="table-rows">{{getCategory(product)}}</td>
+                    <td class="table-rows formulate">
+                        <FormulateInput
+                                type="text"
+                                v-model="product.price"
+                                disabled
+                                id="price"
+                        />
+                    </td>
+                    <td class="table-rows">
+                        <FormulateInput
+                                type="text"
+                                v-model="product.weight"
+                                id="weight"
+                                disabled
+                        />
+                    </td>
+                    <td class="table-rows"><FormulateInput
+                            type="select"
+                            v-model="product.categoryId"
+                            :options="[
+                                {value: '1', label: 'Keyboard'},
+                                {value: '2',label: 'Mouse'},
+                                {value: '4',label: 'MousePad'},
+                                {value: '5', label:'Headphones'}
+                            ]"
+                            id="category"
+                            disabled
+
+                    /></td>
+                    <td>
+                        <button class="navbar-bg" v-on:click="editProperty()"> Edit</button>
+                        <button class="navbar-bg" v-on:click="saveChanges(product)" id="save" disabled> Save</button>
+                    </td>
                 </tr>
             </table>
             <table class="table table-bordered table-striped table-dark">
@@ -90,8 +123,11 @@
                 approvedOrders: [],
                 orderList: [],
                 allOrders: [],
-                error: '',
-                dropdownSelection: {}
+                isError: false,
+                dropdownSelection: {},
+                saveButtonDisabled: true,
+                disabled: true,
+                alert: false
             };
         },
         created() {
@@ -114,6 +150,9 @@
             } catch (e) {
                 this.error = e;
             }
+            document.getElementById("save").disabled = true;
+            document.getElementById("price").disabled = true;
+            document.getElementById("weight").disabled = true;
         },
         methods: {
             getCategory(product) {
@@ -138,6 +177,39 @@
                     orderStatusId: statusId
                 });
                 this.approvedOrders.pop(this.approvedOrders.filter(o => o.id === orderId));
+            },
+            editProperty() {
+                this.disabled = false;
+                document.getElementById("save").disabled = false;
+                document.getElementById("price").disabled = false;
+                document.getElementById("weight").disabled = false;
+                document.getElementById("category").disabled = false;
+            },
+            async saveChanges(product) {
+                let that = this;
+                that.isError = false;
+                await http.put('/products/' + product.id, {
+                    price: product.price,
+                    weight: product.weight,
+                    categoryId: product.categoryId
+                }).catch((error) => {
+                    that.isError = true;
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    }
+                });
+                if (!that.isError) {
+                    document.getElementById("save").disabled = true;
+                    document.getElementById("price").disabled = true;
+                    document.getElementById("weight").disabled = true;
+                    document.getElementById("category").disabled = true;
+                    this.alert = false
+                } else {
+                    this.alert = true;
+                }
+
             }
         },
         computed: {
@@ -180,4 +252,9 @@
         color: #00ff00;
         margin-left: 700px;
     }
+
+    .formulate {
+        width: 15px;
+    }
+
 </style>

@@ -1,3 +1,3 @@
-cd ./fake-razer-app
+cd ./vue
 
 npm run serve

@@ -18,7 +18,7 @@ var controller = {
                 as: 'orderedProducts'
             }],
             where: {orderStatusId: req.params.id}
-        }).then((result) => res.json(result))
+        }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
     },
 
     add: function (req, res) {
@@ -28,7 +28,7 @@ var controller = {
                 userName: req.body.userName,
                 userMail: req.body.userMail,
                 userPhoneNumber: req.body.userPhoneNumber
-            }).then((result) => res.json(result)).catch((err) => res.json(err));
+            }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
 
     },
 
@@ -39,19 +39,16 @@ var controller = {
             where: {
                 id: req.params.id
             }
-        }).then((result) => res.json(result))
+        }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
     },
 
     getLatest: function (req, res) {
-        try {
-            Order.findAll({
-                limit: 1,
-                order: [['Id', 'DESC']]
-            }).then((result) => res.json(result));
-        } catch (e) {
-            console.log(e)
-        }
+        Order.findAll({
+            limit: 1,
+            order: [['Id', 'DESC']]
+        }).then((result) => res.json(result)).catch((err) => res.status(400).send(err))
     }
+
 };
 
 

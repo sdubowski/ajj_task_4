@@ -33,7 +33,10 @@ Product.init({
 
     },
     weight: {
-        type: DataTypes.DECIMAL
+        type: DataTypes.DECIMAL,
+        validate: {
+            min: 0
+        }
 
     },
     categoryId: {

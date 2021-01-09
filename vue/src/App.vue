@@ -20,7 +20,7 @@ export default {
     url('./fonts/Razerd Light.ttf') format("truetype");
   }
 .app {
- height: 2000px;
+ height: 3500px;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
